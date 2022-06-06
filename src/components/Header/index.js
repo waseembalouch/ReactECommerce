@@ -1,12 +1,13 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
     <nav className="navbar navbar-expand-md navbar-light bg-light fixed-top">
       <div className="container">
-        <a href="#" className="navbar-brand">
+        <Link to="/" href="#" className="navbar-brand">
           MyShop
-        </a>
+        </Link>
         <button
           className="navbar-toggler"
           type="button"
@@ -27,7 +28,9 @@ const Header = () => {
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link">Login</a>
+              <Link className="nav-link" to="/registration">
+                Login
+              </Link>
             </li>
           </ul>
           <ul className="navbar-nav">
