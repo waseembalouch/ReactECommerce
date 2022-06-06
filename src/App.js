@@ -1,16 +1,37 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
-import Header from "./components/Header";
+
+import HomepageLayout from "./layouts/HomepageLayout";
+import MainLayout from "./layouts/MainLayout";
 import Homepage from "./pages/Homepage";
+import Registration from "./pages/Registration";
 
 function App() {
   return (
     <>
-      <Header />
       <div className="main">
         <Routes>
-          <Route path="/" element={<Homepage />} />
+          <Route
+            path="/"
+            element={
+              <>
+                <HomepageLayout>
+                  <Homepage />
+                </HomepageLayout>
+              </>
+            }
+          />
+          <Route
+            path="/registration"
+            element={
+              <>
+                <MainLayout>
+                  <Registration />
+                </MainLayout>
+              </>
+            }
+          />
         </Routes>
       </div>
     </>
