@@ -5,7 +5,7 @@ import "./App.css";
 import HomepageLayout from "./layouts/HomepageLayout";
 import MainLayout from "./layouts/MainLayout";
 import Homepage from "./pages/Homepage";
-import Registration from "./pages/Registration";
+import Login from "./pages/Login";
 
 function App() {
   return (
@@ -23,11 +23,11 @@ function App() {
             }
           />
           <Route
-            path="/registration"
+            path="/login"
             element={
               <>
                 <MainLayout>
-                  <Registration />
+                  <Login />
                 </MainLayout>
               </>
             }
