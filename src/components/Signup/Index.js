@@ -1,16 +1,19 @@
 import React, { Component } from "react";
 import logo from "../../assets/reactjs.svg";
-import { auth, signInWithGoogle } from "../../firebase/utils";
 
 const initialState = {
+  displayName: "",
   email: "",
   password: "",
+  confirmPassword: "",
 };
 
-class SingIn extends Component {
+class Signup extends Component {
   constructor(props) {
     super(props);
-    this.state = { ...initialState };
+    this.state = {
+      ...initialState,
+    };
 
     this.handleChange = this.handleChange.bind(this);
   }
@@ -21,20 +24,11 @@ class SingIn extends Component {
       [name]: value,
     });
   }
-
-  handleSubmit = async (e) => {
-    e.preventDefault();
-    const { email, password } = this.state;
-    try {
-      auth.signInWithEmailAndPassword(email, password);
-      this.setState({
-        ...initialState,
-      });
-    } catch (error) {}
-  };
+  handleP
 
   render() {
-    const { email, password } = this.state;
+    const { displayName, email, password, confirmPassword } = this.state;
+
     return (
       <>
         <main role="main" className="container">
@@ -42,12 +36,23 @@ class SingIn extends Component {
             <div className="login-wrap">
               <img className="mb-4" src={logo} alt="" width={72} height={72} />
               <h1 className="h3 mb-3 font-weight-normal">
-                <span>Signing in...</span>
+                <span>Signing Up...</span>
               </h1>
-              <form onSubmit={this.handleSubmit}>
+              <form onSubmit={this.handleFormSubmit}>
+                <div className="form-group">
+                  <input
+                    type="text"
+                    name="displayName"
+                    value={displayName}
+                    className="form-control input-lg"
+                    placeholder="Full Name"
+                    handleChange={this.handleChange}
+                  />
+                </div>
                 <div className="form-group">
                   <input
                     type="email"
+                    name="name"
                     value={email}
                     className="form-control input-lg"
                     placeholder="Enter email"
@@ -57,25 +62,28 @@ class SingIn extends Component {
                 <div className="form-group">
                   <input
                     type="password"
+                    name="password"
                     value={password}
                     className="form-control input-lg"
                     placeholder="Password"
                     handleChange={this.handleChange}
                   />
                 </div>
-
+                <div className="form-group">
+                  <input
+                    type="password"
+                    name="confirmPassword"
+                    value={confirmPassword}
+                    className="form-control input-lg"
+                    placeholder="Confirm Password"
+                    handleChange={this.handleChange}
+                  />
+                </div>
                 <button
                   className="btn btn-lg btn-primary btn-block"
                   type="submit"
                 >
-                  Sign in
-                </button>
-                <button
-                  onClick={signInWithGoogle}
-                  className="btn btn-lg btn-primary btn-block"
-                  type="button"
-                >
-                  Sign in with Google
+                  Sign Up
                 </button>
               </form>
             </div>
@@ -88,4 +96,4 @@ class SingIn extends Component {
   }
 }
 
-export default SingIn;
+export default Signup;

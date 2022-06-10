@@ -1,7 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { auth } from "../../firebase/utils";
 
-const Header = () => {
+const Header = (props) => {
+  const { currentUser } = props;
+
   return (
     <nav className="navbar navbar-expand-md navbar-light bg-light fixed-top">
       <div className="container">
@@ -27,35 +30,49 @@ const Header = () => {
                 <span className="badge badge-warning badge-pill">0</span>
               </a>
             </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/login">
-                Login
-              </Link>
-            </li>
+            {!currentUser && (
+              <li className="nav-item">
+                <Link className="nav-link" to="/login">
+                  Login
+                </Link>
+              </li>
+            )}
           </ul>
-          <ul className="navbar-nav">
-            <li className="nav-item dropdown">
-              <a
-                className="nav-link dropdown-toggle cursor-pointer"
-                id="dropdown01"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                Umair
-              </a>
-              <div className="dropdown-menu" aria-labelledby="dropdown01">
-                <a className="dropdown-item">My Orders</a>
-                <a className="dropdown-item">Manage Products</a>
-                <a className="dropdown-item">Manage Orders</a>
-                <a className="dropdown-item">Logout</a>
-              </div>
-            </li>
-          </ul>
+
+          {currentUser && (
+            <ul className="navbar-nav">
+              <li className="nav-item dropdown">
+                <a
+                  className="nav-link dropdown-toggle cursor-pointer"
+                  id="dropdown01"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  Umair
+                </a>
+                <div className="dropdown-menu" aria-labelledby="dropdown01">
+                  <a className="dropdown-item">My Orders</a>
+                  <a className="dropdown-item">Manage Products</a>
+                  <a className="dropdown-item">Manage Orders</a>
+                  <a
+                    className="dropdown-item"
+                    onClick={() => auth.signOut()}
+                  >
+                    Logout
+                  </a>
+                </div>
+              </li>
+            </ul>
+          )}
         </div>
       </div>
     </nav>
   );
+};
+
+Header.defaultProps = {
+  currentUser: null,
 };
 
 export default Header;
