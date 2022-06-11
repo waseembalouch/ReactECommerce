@@ -47,20 +47,22 @@ class SingIn extends Component {
               <form onSubmit={this.handleSubmit}>
                 <div className="form-group">
                   <input
+                    name="email"
                     type="email"
                     value={email}
                     className="form-control input-lg"
                     placeholder="Enter email"
-                    handleChange={this.handleChange}
+                    onChange={this.handleChange}
                   />
                 </div>
                 <div className="form-group">
                   <input
+                    name="password"
                     type="password"
                     value={password}
                     className="form-control input-lg"
                     placeholder="Password"
-                    handleChange={this.handleChange}
+                    onChange={this.handleChange}
                   />
                 </div>
 

@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
+import { connect } from "react-redux";
+import { setCurrenUser } from "./redux/User/user.actions";
 
 import "./App.css";
 import { auth, handleUserProfile } from "./firebase/utils";
@@ -9,44 +11,31 @@ import MainLayout from "./layouts/MainLayout";
 import Homepage from "./pages/Homepage";
 import Login from "./pages/Login";
 import Signup from "./pages/Registration";
-const initialState = {
-  currentUser: null,
-};
+
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      ...initialState,
-    };
-  }
-
   authListener = null;
 
   componentDidMount() {
-    // this.authListener = auth.onAuthStateChanged((userAuth) => {
-    //   if (userAuth) {
-    //     const userRef = handleUserProfile(userAuth);
-    //     userRef.onSnapshot((snapshot) => {
-    //       this.setState({
-    //         currentUser: {
-    //           id: snapshot.id,
-    //           ...snapshot.data(),
-    //         },
-    //       });
-    //     });
-    //   }
-    //   this.setState({
-    //     ...initialState,
-    //   });
-    // });
+    this.authListener = auth.onAuthStateChanged((userAuth) => {
+      if (userAuth) {
+        const userRef = await handleUserProfile(userAuth);
+        userRef.onSnapshot((snapshot) => {
+          this.props.setCurrenUser({
+            id: snapshot.id,
+            ...snapshot.data(),
+          });
+        });
+      }
+      this.props.setCurrenUser(userAuth);
+    });
   }
   componentWillUnmount() {
     //this.authListener();
   }
 
   render() {
-    const { currentUser } = this.state;
+    const { currentUser } = this.props;
 
     return (
       <>
@@ -56,7 +45,7 @@ class App extends Component {
               path="/"
               element={
                 <>
-                  <HomepageLayout currentUser={currentUser}>
+                  <HomepageLayout>
                     <Homepage />
                   </HomepageLayout>
                 </>
@@ -65,7 +54,7 @@ class App extends Component {
             <Route
               path="/login"
               element={
-                <MainLayout currentUser={currentUser}>
+                <MainLayout>
                   <Login />
                 </MainLayout>
               }
@@ -75,7 +64,7 @@ class App extends Component {
               path="/registration"
               element={
                 <>
-                  <MainLayout currentUser={currentUser}>
+                  <MainLayout>
                     <Signup />
                   </MainLayout>
                 </>
@@ -88,4 +77,12 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = ({ user }) => ({
+  currentUser: user.currentUser,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  setCurrentUser: (user) => dispatch(setCurrenUser),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

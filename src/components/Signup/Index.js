@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import logo from "../../assets/reactjs.svg";
+import { auth, handleUserProfile } from "../../firebase/utils";
 
 const initialState = {
   displayName: "",
   email: "",
   password: "",
   confirmPassword: "",
+  errors: [],
 };
 
 class Signup extends Component {
@@ -24,10 +26,34 @@ class Signup extends Component {
       [name]: value,
     });
   }
-  handleP
+  handleFormSubmit = async (eve) => {
+    eve.preventDefault();
+    const { displayName, email, password, confirmPassword, errors } =
+      this.state;
+    if (password !== confirmPassword) {
+      const err = ["Password Don't  match"];
+      this.setState({
+        errors: err,
+      });
+      return;
+    }
+    try {
+      const { user } = await auth.createUserWithEmailAndPassword(
+        email,
+        password
+      );
+      await handleUserProfile(user, { displayName });
+      this.setState({
+        ...initialState,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   render() {
-    const { displayName, email, password, confirmPassword } = this.state;
+    const { displayName, email, password, confirmPassword, errors } =
+      this.state;
 
     return (
       <>
@@ -38,6 +64,13 @@ class Signup extends Component {
               <h1 className="h3 mb-3 font-weight-normal">
                 <span>Signing Up...</span>
               </h1>
+              {errors.length > 0 && (
+                <ul>
+                  {errors.map((err, index) => {
+                    return <li key={index}>{err}</li>;
+                  })}
+                </ul>
+              )}
               <form onSubmit={this.handleFormSubmit}>
                 <div className="form-group">
                   <input
@@ -46,17 +79,17 @@ class Signup extends Component {
                     value={displayName}
                     className="form-control input-lg"
                     placeholder="Full Name"
-                    handleChange={this.handleChange}
+                    onChange={this.handleChange}
                   />
                 </div>
                 <div className="form-group">
                   <input
                     type="email"
-                    name="name"
+                    name="email"
                     value={email}
                     className="form-control input-lg"
                     placeholder="Enter email"
-                    handleChange={this.handleChange}
+                    onChange={this.handleChange}
                   />
                 </div>
                 <div className="form-group">
@@ -66,7 +99,7 @@ class Signup extends Component {
                     value={password}
                     className="form-control input-lg"
                     placeholder="Password"
-                    handleChange={this.handleChange}
+                    onChange={this.handleChange}
                   />
                 </div>
                 <div className="form-group">
@@ -76,7 +109,7 @@ class Signup extends Component {
                     value={confirmPassword}
                     className="form-control input-lg"
                     placeholder="Confirm Password"
-                    handleChange={this.handleChange}
+                    onChange={this.handleChange}
                   />
                 </div>
                 <button

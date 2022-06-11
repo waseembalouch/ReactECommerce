@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { auth } from "../../firebase/utils";
+import { connect } from 'react-redux'
 
 const Header = (props) => {
   const { currentUser } = props;
@@ -55,10 +56,7 @@ const Header = (props) => {
                   <a className="dropdown-item">My Orders</a>
                   <a className="dropdown-item">Manage Products</a>
                   <a className="dropdown-item">Manage Orders</a>
-                  <a
-                    className="dropdown-item"
-                    onClick={() => auth.signOut()}
-                  >
+                  <a className="dropdown-item" onClick={() => auth.signOut()}>
                     Logout
                   </a>
                 </div>
@@ -75,4 +73,8 @@ Header.defaultProps = {
   currentUser: null,
 };
 
-export default Header;
+const mapStateToProps = ({ user }) => ({
+  currentUser: user.currentUser,
+});
+
+export default connect(mapStateToProps, null)(Header);
