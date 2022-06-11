@@ -6,15 +6,18 @@ Following Changes have been made:
 3. Authentication Form      |   Create and setup Authentication Mechanism                     |   04-05 June 2022
 4. Firebase Setup           |   Created Firebase Project and Linked with Reactapp             |   08 June 2022
 5. Registration Form        |   Created Registration form for Admin User                      |   09 June 2022
-6. Redux Implementation     |   Implemented Redux to efficiently handle the state             |   10 June 2022
-7. React Hooks              |   Implemented React Hooks to efficiently handle the state       |   10 June 2022
-7. Change Implementation    |   Changed class to functional based components                  |   10 June 2022
+6. Redux Implementation     |   Implemented Redux to efficiently handle the state             |   11 June 2022
+7. React Hooks              |   Implemented React Hooks to efficiently handle the state       |   11 June 2022
+7. Change Implementation    |   Changed class to functional based components                  |   11 June 2022
 
 
 
 
  created higher order component
  custom hooks
+ Redux and React Hooks
 
 
 usestate vs useffect
+
+redux thunk

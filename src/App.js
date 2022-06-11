@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 import { setCurrenUser } from "./redux/User/user.actions";
 
 import "./App.css";
@@ -15,24 +15,24 @@ import Dashboard from "./pages/Dashboard";
 import WithAuth from "./hoc/withAuth";
 
 const App = (props) => {
-  const { setCurrenUser, currentUser } = props;
-  useEffect(() => {
-    // const authListener = auth.onAuthStateChanged((userAuth) => {
-    //   if (userAuth) {
-    //     const userRef = await handleUserProfile(userAuth);
-    //     userRef.onSnapshot((snapshot) => {
-    //       this.props.setCurrenUser({
-    //         id: snapshot.id,
-    //         ...snapshot.data(),
-    //       });
-    //     });
-    //   }
-    //   this.props.setCurrenUser(userAuth);
-    // });
-    // return () => {
-    //   authListener();
-    // };
-  }, []);
+// const dispatch = useDispatch({});
+//   useEffect(() => {
+//     // const authListener = auth.onAuthStateChanged((userAuth) => {
+//     //   if (userAuth) {
+//     //     const userRef = await handleUserProfile(userAuth);
+//     //     userRef.onSnapshot((snapshot) => {
+//     //       useDispatch(setCurrenUser({
+//     //         id: snapshot.id,
+//     //         ...snapshot.data(),
+//     //       }));
+//     //     });
+//     //   }
+//     //   useDispatch(setCurrenUser(userAuth));
+//     // });
+//     // return () => {
+//     //   authListener();
+//     // };
+//   }, []);
 
   return (
     <>
@@ -86,12 +86,5 @@ const App = (props) => {
   );
 };
 
-const mapStateToProps = ({ user }) => ({
-  currentUser: user.currentUser,
-});
 
-const mapDispatchToProps = (dispatch) => ({
-  setCurrentUser: (user) => dispatch(setCurrenUser),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;

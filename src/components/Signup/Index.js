@@ -1,15 +1,40 @@
-import React, { useState } from "react";
-import { auth, handleUserProfile } from "../../firebase/utils";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { resetAllAuthForms, signUpUser } from "../../redux/User/user.actions";
 import { withRouter } from "../../hoc/withRouter";
 import AuthWrapper from "../AuthWrapper";
 import { useNavigate } from "react-router-dom";
+
+const mapState = ({ user }) => ({
+  signUpSuccess: user.signUpSuccess,
+  signUpError: user.signUpError,
+});
+
 const Signup = (props) => {
+  const { signUpSuccess, signUpError } = useSelector(mapState);
+
+  const dispatch = useDispatch();
+
   const [displayName, setDisplayName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (signUpSuccess) {
+      resetForm();
+      dispatch(resetAllAuthForms());
+      navigate("/");
+    }
+  }, [signUpSuccess]);
+
+  useEffect(() => {
+    if (Array.isArray(signUpError) && signUpError.length > 0) {
+      setErrors(signUpError);
+    }
+  }, [signUpError]);
 
   const resetForm = () => {
     setDisplayName("");
@@ -21,24 +46,7 @@ const Signup = (props) => {
 
   const handleFormSubmit = async (eve) => {
     eve.preventDefault();
-
-    if (password !== confirmPassword) {
-      const err = ["Password Don't  match"];
-      setErrors(err);
-      return;
-    }
-    try {
-      const { user } = await auth.createUserWithEmailAndPassword(
-        email,
-        password
-      );
-      await handleUserProfile(user, { displayName });
-      resetForm();
-     
-      navigate("/");
-    } catch (error) {
-      console.log(error);
-    }
+    dispatch(signUpUser({ displayName, email, password, confirmPassword }));
   };
 
   const configAuthWrapper = {
