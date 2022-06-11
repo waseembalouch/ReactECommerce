@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { auth } from "../../firebase/utils";
-import { connect } from 'react-redux'
+import { connect } from "react-redux";
 
 const Header = (props) => {
   const { currentUser } = props;
@@ -32,11 +32,18 @@ const Header = (props) => {
               </a>
             </li>
             {!currentUser && (
-              <li className="nav-item">
-                <Link className="nav-link" to="/login">
-                  Login
-                </Link>
-              </li>
+              <>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/login">
+                    Login
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/registration">
+                    Registration
+                  </Link>
+                </li>
+              </>
             )}
           </ul>
 
@@ -53,7 +60,10 @@ const Header = (props) => {
                   Umair
                 </a>
                 <div className="dropdown-menu" aria-labelledby="dropdown01">
-                  <a className="dropdown-item">My Orders</a>
+                  <Link className="dropdown-item">Dashboard</Link>
+                  <a className="dropdown-item" to="/dashboard">
+                    My Orders
+                  </a>
                   <a className="dropdown-item">Manage Products</a>
                   <a className="dropdown-item">Manage Orders</a>
                   <a className="dropdown-item" onClick={() => auth.signOut()}>

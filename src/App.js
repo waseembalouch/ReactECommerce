@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { setCurrenUser } from "./redux/User/user.actions";
@@ -11,71 +11,80 @@ import MainLayout from "./layouts/MainLayout";
 import Homepage from "./pages/Homepage";
 import Login from "./pages/Login";
 import Signup from "./pages/Registration";
+import Dashboard from "./pages/Dashboard";
+import WithAuth from "./hoc/withAuth";
 
+const App = (props) => {
+  const { setCurrenUser, currentUser } = props;
+  useEffect(() => {
+    // const authListener = auth.onAuthStateChanged((userAuth) => {
+    //   if (userAuth) {
+    //     const userRef = await handleUserProfile(userAuth);
+    //     userRef.onSnapshot((snapshot) => {
+    //       this.props.setCurrenUser({
+    //         id: snapshot.id,
+    //         ...snapshot.data(),
+    //       });
+    //     });
+    //   }
+    //   this.props.setCurrenUser(userAuth);
+    // });
+    // return () => {
+    //   authListener();
+    // };
+  }, []);
 
-class App extends Component {
-  authListener = null;
+  return (
+    <>
+      <div className="main">
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <HomepageLayout>
+                  <Homepage />
+                </HomepageLayout>
+              </>
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <MainLayout>
+                <Login />
+              </MainLayout>
+            }
+          />
 
-  componentDidMount() {
-    this.authListener = auth.onAuthStateChanged((userAuth) => {
-      if (userAuth) {
-        const userRef = await handleUserProfile(userAuth);
-        userRef.onSnapshot((snapshot) => {
-          this.props.setCurrenUser({
-            id: snapshot.id,
-            ...snapshot.data(),
-          });
-        });
-      }
-      this.props.setCurrenUser(userAuth);
-    });
-  }
-  componentWillUnmount() {
-    //this.authListener();
-  }
-
-  render() {
-    const { currentUser } = this.props;
-
-    return (
-      <>
-        <div className="main">
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <>
-                  <HomepageLayout>
-                    <Homepage />
-                  </HomepageLayout>
-                </>
-              }
-            />
-            <Route
-              path="/login"
-              element={
+          <Route
+            path="/registration"
+            element={
+              <>
                 <MainLayout>
-                  <Login />
+                  <Signup />
                 </MainLayout>
-              }
-            />
+              </>
+            }
+          />
 
-            <Route
-              path="/registration"
-              element={
-                <>
+          <Route
+            path="/dashboard"
+            element={
+              <>
+                <WithAuth>
                   <MainLayout>
-                    <Signup />
+                    <Dashboard />
                   </MainLayout>
-                </>
-              }
-            />
-          </Routes>
-        </div>
-      </>
-    );
-  }
-}
+                </WithAuth>
+              </>
+            }
+          />
+        </Routes>
+      </div>
+    </>
+  );
+};
 
 const mapStateToProps = ({ user }) => ({
   currentUser: user.currentUser,
