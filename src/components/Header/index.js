@@ -3,9 +3,10 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { signOutUserStart } from "../../redux/User/user.actions";
 
-const mapState = ({ user }) => ({
-  currentUser: user.currentUser,
+const mapState = (state) => ({
+  currentUser: state.user.currentUser,
 });
+
 
 const Header = (props) => {
   const dispatch = useDispatch();
@@ -68,8 +69,8 @@ const Header = (props) => {
                   Umair
                 </a>
                 <div className="dropdown-menu" aria-labelledby="dropdown01">
-                  <Link className="dropdown-item">Dashboard</Link>
-                  <a className="dropdown-item" to="/dashboard">
+                  <Link className="dropdown-item" to="/dashboard" >Dashboard</Link>
+                  <a className="dropdown-item">
                     My Orders
                   </a>
                   <a className="dropdown-item">Manage Products</a>

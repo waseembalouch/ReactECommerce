@@ -1,7 +1,7 @@
 import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
 import "firebase/compat/auth";
-import { firebaseConfig } from "./config";
+import { firebaseConfig } from './config';
 
 firebase.initializeApp(firebaseConfig);
 
@@ -9,7 +9,7 @@ export const auth = firebase.auth();
 export const firestore = firebase.firestore();
 
 export const GoogleProvider = new firebase.auth.GoogleAuthProvider();
-GoogleProvider.setCustomParameters({ prompt: "select_account" });
+GoogleProvider.setCustomParameters({ prompt: 'select_account' });
 
 export const handleUserProfile = async ({ userAuth, additionalData }) => {
   if (!userAuth) return;
@@ -17,10 +17,11 @@ export const handleUserProfile = async ({ userAuth, additionalData }) => {
 
   const userRef = firestore.doc(`users/${uid}`);
   const snapshot = await userRef.get();
+
   if (!snapshot.exists) {
     const { displayName, email } = userAuth;
     const timestamp = new Date();
-    const userRoles = ["user"];
+    const userRoles = ['user'];
 
     try {
       await userRef.set({
@@ -28,9 +29,9 @@ export const handleUserProfile = async ({ userAuth, additionalData }) => {
         email,
         createdDate: timestamp,
         userRoles,
-        ...additionalData,
+        ...additionalData
       });
-    } catch (err) {
+    } catch(err) {
       // console.log(err);
     }
   }

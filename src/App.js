@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { Routes, Route } from "react-router-dom";
 import { checkUserSession } from "./redux/User/user.actions";
 
-import "./App.css";
+
 
 import HomepageLayout from "./layouts/HomepageLayout";
 import MainLayout from "./layouts/MainLayout";
@@ -13,11 +13,14 @@ import Signup from "./pages/Registration";
 import Dashboard from "./pages/Dashboard";
 import WithAuth from "./hoc/withAuth";
 
+import "./App.css";
 
-const App = (props) => {
+const App = props => {
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(checkUserSession());
+
   }, []);
 
   return (

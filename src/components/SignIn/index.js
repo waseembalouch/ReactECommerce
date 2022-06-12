@@ -1,25 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { withRouter } from "../../hoc/withRouter";
-import AuthWrapper from "../AuthWrapper";
-import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
-  resetAllAuthForms,
   emailSignInStart,
-  signInWithGoogle,
+  googleSignInStart,
 } from "../../redux/User/user.actions";
+
+import AuthWrapper from "../AuthWrapper";
 
 const mapState = ({ user }) => ({
   currentUser: user.currentUser,
 });
 
 const SingIn = (props) => {
-  const { currentUser } = useSelector(mapState);
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
+  const { currentUser } = useSelector(mapState);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (currentUser) {
@@ -32,14 +30,12 @@ const SingIn = (props) => {
     setEmail("");
     setPassword("");
   };
-
-  const handleGoogleSignIn = (e) => {
-    dispatch(signInWithGoogle());
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(emailSignInStart({ email, password }));
+  };
+  const handleGoogleSignIn = (e) => {
+    dispatch(googleSignInStart());
   };
 
   const configAuthWrapper = {
@@ -87,4 +83,4 @@ const SingIn = (props) => {
   );
 };
 
-export default withRouter(SingIn);
+export default SingIn;
