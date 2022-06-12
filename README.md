@@ -15,7 +15,7 @@ Following Changes have been made:
 
  created higher order component
  custom hooks
- Redux and React Hooks
+ Redux and React Hooks, redux saga
 
 
 usestate vs useffect

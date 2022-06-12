@@ -5,17 +5,16 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   resetAllAuthForms,
-  signInUser,
+  emailSignInStart,
   signInWithGoogle,
 } from "../../redux/User/user.actions";
 
-
 const mapState = ({ user }) => ({
-  signInSuccess: user.signInSuccess,
+  currentUser: user.currentUser,
 });
 
 const SingIn = (props) => {
-  const { signInSuccess } = useSelector(mapState);
+  const { currentUser } = useSelector(mapState);
   const dispatch = useDispatch();
 
   const [email, setEmail] = useState("");
@@ -23,12 +22,11 @@ const SingIn = (props) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (signInSuccess) {
+    if (currentUser) {
       resetForm();
-      dispatch(resetAllAuthForms());
       navigate("/");
     }
-  }, [signInSuccess]);
+  }, [currentUser]);
 
   const resetForm = () => {
     setEmail("");
@@ -41,7 +39,7 @@ const SingIn = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(signInUser({ email, password }));
+    dispatch(emailSignInStart({ email, password }));
   };
 
   const configAuthWrapper = {

@@ -1,10 +1,9 @@
 import React, { useEffect } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { setCurrenUser } from "./redux/User/user.actions";
+import { useDispatch } from "react-redux";
+import { Routes, Route } from "react-router-dom";
+import { checkUserSession } from "./redux/User/user.actions";
 
 import "./App.css";
-import { auth, handleUserProfile } from "./firebase/utils";
 
 import HomepageLayout from "./layouts/HomepageLayout";
 import MainLayout from "./layouts/MainLayout";
@@ -14,25 +13,12 @@ import Signup from "./pages/Registration";
 import Dashboard from "./pages/Dashboard";
 import WithAuth from "./hoc/withAuth";
 
+
 const App = (props) => {
-// const dispatch = useDispatch({});
-//   useEffect(() => {
-//     // const authListener = auth.onAuthStateChanged((userAuth) => {
-//     //   if (userAuth) {
-//     //     const userRef = await handleUserProfile(userAuth);
-//     //     userRef.onSnapshot((snapshot) => {
-//     //       useDispatch(setCurrenUser({
-//     //         id: snapshot.id,
-//     //         ...snapshot.data(),
-//     //       }));
-//     //     });
-//     //   }
-//     //   useDispatch(setCurrenUser(userAuth));
-//     // });
-//     // return () => {
-//     //   authListener();
-//     // };
-//   }, []);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(checkUserSession());
+  }, []);
 
   return (
     <>
@@ -85,6 +71,5 @@ const App = (props) => {
     </>
   );
 };
-
 
 export default App;

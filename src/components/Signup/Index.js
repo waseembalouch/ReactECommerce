@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { resetAllAuthForms, signUpUser } from "../../redux/User/user.actions";
+import {  signOutUserStart } from "../../redux/User/user.actions";
 import { withRouter } from "../../hoc/withRouter";
 import AuthWrapper from "../AuthWrapper";
 import { useNavigate } from "react-router-dom";
 
 const mapState = ({ user }) => ({
-  signUpSuccess: user.signUpSuccess,
-  signUpError: user.signUpError,
+  currentUser: user.currentUser,
+  userErr: user.userErr,
 });
 
 const Signup = (props) => {
-  const { signUpSuccess, signUpError } = useSelector(mapState);
+  const { currentUser, userErr } = useSelector(mapState);
 
   const dispatch = useDispatch();
 
@@ -23,18 +23,17 @@ const Signup = (props) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (signUpSuccess) {
+    if (currentUser) {
       resetForm();
-      dispatch(resetAllAuthForms());
-      navigate("/");
+         navigate("/");
     }
-  }, [signUpSuccess]);
+  }, [currentUser]);
 
   useEffect(() => {
-    if (Array.isArray(signUpError) && signUpError.length > 0) {
-      setErrors(signUpError);
+    if (Array.isArray(userErr) && userErr.length > 0) {
+      setErrors(userErr);
     }
-  }, [signUpError]);
+  }, [userErr]);
 
   const resetForm = () => {
     setDisplayName("");
@@ -46,7 +45,7 @@ const Signup = (props) => {
 
   const handleFormSubmit = async (eve) => {
     eve.preventDefault();
-    dispatch(signUpUser({ displayName, email, password, confirmPassword }));
+    dispatch(signOutUserStart({ displayName, email, password, confirmPassword }));
   };
 
   const configAuthWrapper = {
