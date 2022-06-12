@@ -12,7 +12,7 @@ const Header = (props) => {
   const dispatch = useDispatch();
   const { currentUser } = useSelector(mapState);
   const signOut = () => {
-    dispatch(signOutUserStart);
+    dispatch(signOutUserStart());
   };
 
   return (
