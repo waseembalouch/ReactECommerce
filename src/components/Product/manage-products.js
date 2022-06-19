@@ -18,6 +18,27 @@ const ManageProduct = (props) => {
   const dispatch = useDispatch();
   const { data } = products;
 
+  const searchGrid = () => {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("searchInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("productGrid");
+    tr = table.getElementsByTagName("tr");
+
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[0];
+      if (td) {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    }
+  };
+
   useEffect(() => {
     dispatch(fetchProductsStart());
   }, []);
@@ -26,21 +47,20 @@ const ManageProduct = (props) => {
       <PageWrapper>
         <div>
           <div className="input-group mb-3">
-            <input type="text" className="form-control" placeholder="Search" />
+            <input type="text" id="searchInput" className="form-control" placeholder="Search" onKeyUp={searchGrid} />
             <div className="input-group-append">
               <Link className="btn btn-success" to="/addproduct">
                 Create new Product
               </Link>
             </div>
           </div>
-          <table className="table">
+          <table className="table" id="productGrid">
             <thead>
-              <tr>
-                <th style={{ width: "20%" }}>Thumbnail</th>
+              <tr>               
                 <th style={{ width: "20%" }}>Title</th>
                 <th style={{ width: "20%" }}>Price</th>
                 <th style={{ width: "20%" }}>Category</th>
-
+                <th style={{ width: "20%" }}>Thumbnail</th>
                 <th className="text-center" width={200}>
                   Actions
                 </th>
@@ -60,13 +80,7 @@ const ManageProduct = (props) => {
 
                   return (
                     <tr key={index}>
-                      <td>
-                        <img
-                          style={{ maxWidth: "100%", height: "200px" }}
-                          alt="test"
-                          src={productThumbnail}
-                        />
-                      </td>
+                      
                       <td>{productName}</td>
                       <td>${productPrice}</td>
                       <td>
@@ -77,7 +91,13 @@ const ManageProduct = (props) => {
                           }
                         )}
                       </td>
-
+                      <td>
+                        <img
+                          style={{ maxWidth: "100%", height: "200px" }}
+                          alt="test"
+                          src={productThumbnail}
+                        />
+                      </td>
                       <td>
                         <Button className="btn btn-danger mr-2">Edit</Button>
                         <Button
