@@ -16,9 +16,12 @@ import Homepage from "./pages/Homepage";
 import Login from "./pages/Login";
 import Signup from "./pages/Registration";
 import Dashboard from "./pages/Dashboard";
-import Admin from "./pages/Admin/Index";
+// import Admin from "./pages/Admin/Index";
 
 import "./App.css";
+
+import AddProductPage from "./pages/Admin/AddProductPage";
+import ManageProductPage from "./pages/Admin/ManageProductPage";
 
 const App = (props) => {
   const dispatch = useDispatch();
@@ -73,15 +76,25 @@ const App = (props) => {
               </>
             }
           />
+
           <Route
-            path="/admin"
+            path="/addproduct"
             element={
               <>
-                <WithAdminAuth>
-                  <MainLayout>
-                    <Admin />
-                  </MainLayout>
-                </WithAdminAuth>
+                <MainLayout>
+                  <AddProductPage />
+                </MainLayout>
+              </>
+            }
+          />
+
+          <Route
+            path="/manageproduct"
+            element={
+              <>
+                <MainLayout>
+                  <ManageProductPage />
+                </MainLayout>
               </>
             }
           />

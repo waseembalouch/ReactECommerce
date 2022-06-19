@@ -7,7 +7,6 @@ const mapState = (state) => ({
   currentUser: state.user.currentUser,
 });
 
-
 const Header = (props) => {
   const dispatch = useDispatch();
   const { currentUser } = useSelector(mapState);
@@ -69,11 +68,15 @@ const Header = (props) => {
                   Umair
                 </a>
                 <div className="dropdown-menu" aria-labelledby="dropdown01">
-                  <Link className="dropdown-item" to="/dashboard" >Dashboard</Link>
-                  <a className="dropdown-item">
-                    My Orders
-                  </a>
-                  <a className="dropdown-item">Manage Products</a>
+                  <Link className="dropdown-item" to="/dashboard">
+                    Dashboard
+                  </Link>
+                  <a className="dropdown-item">My Orders</a>
+
+                  <Link className="dropdown-item" to="/manageproduct">
+                    Manage Products
+                  </Link>
+
                   <a className="dropdown-item">Manage Orders</a>
                   <a className="dropdown-item" onClick={() => signOut()}>
                     Logout

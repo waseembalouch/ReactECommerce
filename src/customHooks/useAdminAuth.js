@@ -12,6 +12,7 @@ const useAdminAuth = props => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    debugger
     if (!checkUserIsAdmin(currentUser)) {
       navigate("/login");
     }

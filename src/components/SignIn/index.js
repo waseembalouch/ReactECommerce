@@ -6,7 +6,7 @@ import {
   googleSignInStart,
 } from "../../redux/User/user.actions";
 
-import AuthWrapper from "../AuthWrapper";
+import AuthWrapper from "../Wrapper/auth-wrapper";
 
 const mapState = ({ user }) => ({
   currentUser: user.currentUser,
