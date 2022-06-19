@@ -37,10 +37,10 @@ const Header = (props) => {
         <div className="collapse navbar-collapse" id="navbarsExampleDefault">
           <ul className="navbar-nav mr-auto">
             <li className="nav-item active">
-              <a className="nav-link">
+              <Link className="nav-link" to="/cart">
                 Cart
                 <span className="badge badge-warning badge-pill">{totalNumCartItems}</span>
-              </a>
+              </Link>
             </li>
             {!currentUser && (
               <>

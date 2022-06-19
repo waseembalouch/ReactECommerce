@@ -22,6 +22,7 @@ import "./App.css";
 
 import AddProductPage from "./pages/Admin/AddProductPage";
 import ManageProductPage from "./pages/Admin/ManageProductPage";
+import Cart from "./pages/Cart";
 
 const App = (props) => {
   const dispatch = useDispatch();
@@ -41,25 +42,6 @@ const App = (props) => {
                 <HomepageLayout>
                   <Homepage />
                 </HomepageLayout>
-              </>
-            }
-          />
-          <Route
-            path="/login"
-            element={
-              <MainLayout>
-                <Login />
-              </MainLayout>
-            }
-          />
-
-          <Route
-            path="/registration"
-            element={
-              <>
-                <MainLayout>
-                  <Signup />
-                </MainLayout>
               </>
             }
           />
@@ -87,13 +69,42 @@ const App = (props) => {
               </>
             }
           />
-
           <Route
             path="/manageproduct"
             element={
               <>
                 <MainLayout>
                   <ManageProductPage />
+                </MainLayout>
+              </>
+            }
+          />
+          <Route
+            path="/cart"
+            element={
+              <>
+                <MainLayout>
+                  <Cart/>
+                </MainLayout>
+              </>
+            }
+          />
+
+          <Route
+            path="/login"
+            element={
+              <MainLayout>
+                <Login />
+              </MainLayout>
+            }
+          />
+
+          <Route
+            path="/registration"
+            element={
+              <>
+                <MainLayout>
+                  <Signup />
                 </MainLayout>
               </>
             }
