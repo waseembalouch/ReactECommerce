@@ -2,14 +2,17 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { signOutUserStart } from "../../redux/User/user.actions";
+import { selectCartItemsCount } from "./../../redux/Cart/cart.selectors";
+
 
 const mapState = (state) => ({
   currentUser: state.user.currentUser,
+  totalNumCartItems: selectCartItemsCount(state)
 });
 
 const Header = (props) => {
   const dispatch = useDispatch();
-  const { currentUser } = useSelector(mapState);
+  const { currentUser, totalNumCartItems } = useSelector(mapState);
   const signOut = () => {
     dispatch(signOutUserStart());
   };
@@ -36,7 +39,7 @@ const Header = (props) => {
             <li className="nav-item active">
               <a className="nav-link">
                 Cart
-                <span className="badge badge-warning badge-pill">0</span>
+                <span className="badge badge-warning badge-pill">{totalNumCartItems}</span>
               </a>
             </li>
             {!currentUser && (
