@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import {
   selectCartItems,
   selectCartTotal,
@@ -11,16 +12,29 @@ import Button from "../forms/Button";
 import PageWrapper from "../Wrapper/page-wrapper";
 import Item from "./Item";
 
+
+
 const mapState = createStructuredSelector({
   cartItems: selectCartItems,
   total: selectCartTotal,
   totalItems: selectCartItemsCount,
 });
 
+
+
 const CartDetails = () => {
   const navigate = useNavigate();
   const { cartItems, total, totalItems } = useSelector(mapState);
   const errMsg = "You have no items in your cart.";
+
+  useEffect(() => {
+    if (totalItems < 1) {
+      navigate('/');
+    }
+  
+  }, [totalItems]);
+  
+
   return (
     <PageWrapper>
       <h1 className="mb-3">
@@ -65,8 +79,13 @@ const CartDetails = () => {
         <p>{errMsg}</p>
       )}
       <p>
-        <button className="btn btn-info mr-2" onCLick={() => navigate("/checkout")}>Checkout Cart</button>
-        <button className="btn btn-danger" onCLick={() => navigate("/")}>Continue Shopping</button>
+        <Link to="/checkout">
+          <button className="btn btn-info mr-2">Checkout Cart</button>
+        </Link>
+
+        <Link to="/">
+          <button className="btn btn-danger">Continue Shopping</button>
+        </Link>
       </p>
     </PageWrapper>
   );

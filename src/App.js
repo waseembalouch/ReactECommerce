@@ -23,6 +23,7 @@ import "./App.css";
 import AddProductPage from "./pages/Admin/AddProductPage";
 import ManageProductPage from "./pages/Admin/ManageProductPage";
 import Cart from "./pages/Cart";
+import Checkout from "./pages/Checkout";
 
 const App = (props) => {
   const dispatch = useDispatch();
@@ -84,7 +85,17 @@ const App = (props) => {
             element={
               <>
                 <MainLayout>
-                  <Cart/>
+                  <Cart />
+                </MainLayout>
+              </>
+            }
+          />
+          <Route
+            path="/checkout"
+            element={
+              <>
+                <MainLayout>
+                  <Checkout />
                 </MainLayout>
               </>
             }

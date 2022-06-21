@@ -3,25 +3,26 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { signOutUserStart } from "../../redux/User/user.actions";
 import { selectCartItemsCount } from "./../../redux/Cart/cart.selectors";
-
+import { clearCart } from "./../../redux/Cart/cart.actions";
 
 const mapState = (state) => ({
   currentUser: state.user.currentUser,
-  totalNumCartItems: selectCartItemsCount(state)
+  totalNumCartItems: selectCartItemsCount(state),
 });
 
 const Header = (props) => {
   const dispatch = useDispatch();
   const { currentUser, totalNumCartItems } = useSelector(mapState);
   const signOut = () => {
+    dispatch(clearCart());
     dispatch(signOutUserStart());
   };
 
   return (
     <nav className="navbar navbar-expand-md navbar-light bg-light fixed-top">
       <div className="container">
-        <Link to="/" href="#" className="navbar-brand">
-          MyShop
+        <Link to="/" className="navbar-brand">
+          10pEcommerce
         </Link>
         <button
           className="navbar-toggler"
@@ -39,7 +40,9 @@ const Header = (props) => {
             <li className="nav-item active">
               <Link className="nav-link" to="/cart">
                 Cart
-                <span className="badge badge-warning badge-pill">{totalNumCartItems}</span>
+                <span className="badge badge-warning badge-pill">
+                  {totalNumCartItems}
+                </span>
               </Link>
             </li>
             {!currentUser && (
@@ -68,7 +71,7 @@ const Header = (props) => {
                   aria-haspopup="true"
                   aria-expanded="false"
                 >
-                  Umair
+                  {currentUser.displayName}
                 </a>
                 <div className="dropdown-menu" aria-labelledby="dropdown01">
                   <Link className="dropdown-item" to="/dashboard">

@@ -1,21 +1,19 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import FormInput from "./../forms/FormInput";
 import Button from "./../forms/Button";
-import { saveOrderHistory } from "./../../redux/Orders/orders.actions";
-import { clearCart } from './../../redux/Cart/cart.actions';
-import { createStructuredSelector } from 'reselect';
-import { useSelector, useDispatch } from 'react-redux';
-
+import { saveOrderHistory } from "./../../redux/ ./../../redux/Orders/orders.actions";
+import { createStructuredSelector } from "reselect";
+import { useSelector, useDispatch } from "react-redux";
 
 import {
   selectCartTotal,
   selectCartItemsCount,
   selectCartItems,
 } from "./../../redux/Cart/cart.selectors";
-
+import PageWrapper from "../Wrapper/page-wrapper";
 
 const initialAddressState = {
-  name: "",
   address: "",
   city: "",
   phone: "",
@@ -28,56 +26,136 @@ const mapState = createStructuredSelector({
 });
 
 const CheckoutDetails = () => {
+  const { cartItems, total, totalItems } = useSelector(mapState);
+  const [shippingAddress, setShippingAddress] = useState({
+    ...initialAddressState,
+  });
+  const [recipientName, setRecipientName] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleShipping = (evt) => {
+    const { name, value } = evt.target;
+    setShippingAddress({
+      ...shippingAddress,
+      [name]: value,
+    });
+  };
+
+  useEffect(() => {
+    if (totalItems < 1) {
+      navigate("/");
+    }
+  }, [totalItems]);
+
+  const handleFormSubmit = async (evt) => {
+    evt.preventDefault();
+
+    if (
+      !shippingAddress.address ||
+      !shippingAddress.city ||
+      !shippingAddress.phone ||
+      !recipientName
+    ) {
+      alert("All fields are required");
+      return;
+    }
+    const configOrder = {
+      recipientName: recipientName,
+      orderTotal: total,
+      orderItems: cartItems.map((item) => {
+        const {
+          documentID,
+          productThumbnail,
+          productName,
+          productPrice,
+          quantity,
+        } = item;
+
+        return {
+          documentID,
+          productThumbnail,
+          productName,
+          productPrice,
+          quantity,
+        };
+      }),
+    };
+
+    dispatch(saveOrderHistory(configOrder));
+  };
+
   return (
-    <div className="row">
-      <div className="col-md-6">
-        <form>
-          <div className="form-group">
-            <label htmlFor="name">Name</label>
-            <input type="text" id="name" className="form-control" />
-          </div>
-          <div className="form-group">
-            <label htmlFor="address">Address</label>
-            <input type="text" id="address" className="form-control" />
-            <div className="alert alert-danger">
-              <div>Address is required.</div>
+    <PageWrapper>
+      <div className="row">
+        <div className="col-md-6">
+          <form onSubmit={handleFormSubmit}>
+            <FormInput
+              required
+              label={"Name"}
+              name="recipientName"
+              handleChange={(evt) => setRecipientName(evt.target.value)}
+              value={recipientName}
+              type="text"
+            />
+
+            <FormInput
+              required
+              name="address"
+              label={"Address"}
+              handleChange={(evt) => handleShipping(evt)}
+              value={shippingAddress.address}
+              type="text"
+            />
+
+            <FormInput
+              required
+              name="city"
+              label={"City"}
+              handleChange={(evt) => handleShipping(evt)}
+              value={shippingAddress.city}
+              type="text"
+            />
+
+            <FormInput
+              required
+              name="phone"
+              label={"Phone"}
+              handleChange={(evt) => handleShipping(evt)}
+              value={shippingAddress.phone}
+              type="text"
+            />
+
+            <div>
+              <button type="submit" className="btn btn-primary">
+                Submit
+              </button>
+              <a className="btn btn-default">Cancel</a>
             </div>
-          </div>
-          <div className="form-group">
-            <label htmlFor="city">City</label>
-            <input type="text" id="city" className="form-control" />
-          </div>
-          <div className="form-group">
-            <label htmlFor="phone">Phone</label>
-            <input type="text" id="phone" className="form-control" />
-          </div>
-          <div>
-            <button type="submit" className="btn btn-primary">
-              Submit
-            </button>
-            <a className="btn btn-default">Cancel</a>
-          </div>
-        </form>
-      </div>
-      <div className="col-md-6">
-        <div className="card">
-          <div className="card-body">
-            <h4 className="card-title">Order summary</h4>
-            <p className="card-text">you have 1 items in your shopping cart.</p>
-            <ul className="list-group list-group-flush">
-              <li className="list-group-item">
-                1 x Milk
-                <div className="float-right">$1.00</div>
-              </li>
-              <li className="list-group-item font-weight-bold">
-                Total
-                <div className="float-right">$1.00</div>
-              </li>
-            </ul>
+          </form>
+        </div>
+        <div className="col-md-6">
+          <div className="card">
+            <div className="card-body">
+              <h4 className="card-title">Order summary</h4>
+              <p className="card-text">
+                you have {totalItems} items in your shopping cart.
+              </p>
+              <ul className="list-group list-group-flush">
+                {cartItems.map((item, pos) => {
+                  return <CheckoutDetails {...item} />;
+                })}
+
+                <li className="list-group-item font-weight-bold">
+                  Total
+                  <div className="float-right">${total}</div>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </PageWrapper>
   );
 };
 
