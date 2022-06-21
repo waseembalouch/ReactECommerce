@@ -4,7 +4,7 @@ import {
   removeCartItem,
   addProduct,
   reduceCartItem,
-} from "./../../redux/Cart/cart.actions";
+} from "../../redux/Cart/cart.actions";
 
 const Item = (product) => {
   const dispatch = useDispatch();

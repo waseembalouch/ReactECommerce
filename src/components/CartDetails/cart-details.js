@@ -5,9 +5,9 @@ import {
   selectCartItems,
   selectCartTotal,
   selectCartItemsCount,
-} from "./../../redux/Cart/cart.selectors";
+} from "../../redux/Cart/cart.selectors";
 import { createStructuredSelector } from "reselect";
-import Button from "./../forms/Button";
+import Button from "../forms/Button";
 import PageWrapper from "../Wrapper/page-wrapper";
 import Item from "./Item";
 
@@ -17,7 +17,7 @@ const mapState = createStructuredSelector({
   totalItems: selectCartItemsCount,
 });
 
-const Checkout = () => {
+const CartDetails = () => {
   const navigate = useNavigate();
   const { cartItems, total, totalItems } = useSelector(mapState);
   const errMsg = "You have no items in your cart.";
@@ -65,11 +65,11 @@ const Checkout = () => {
         <p>{errMsg}</p>
       )}
       <p>
-        <button className="btn btn-info mr-2" onCLick={() => navigate("/payment")}>Checkout Cart</button>
-        <button className="btn btn-danger">Clear shopping cart</button>
+        <button className="btn btn-info mr-2" onCLick={() => navigate("/checkout")}>Checkout Cart</button>
+        <button className="btn btn-danger" onCLick={() => navigate("/")}>Continue Shopping</button>
       </p>
     </PageWrapper>
   );
 };
 
-export default Checkout;
+export default CartDetails;
