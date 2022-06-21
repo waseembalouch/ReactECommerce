@@ -1,9 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import FormInput from "./../forms/FormInput";
-import Button from "./../forms/Button";
-import { saveOrderHistory } from "./../../redux/ ./../../redux/Orders/orders.actions";
-import { createStructuredSelector } from "reselect";
 import { useSelector, useDispatch } from "react-redux";
 
 import {
@@ -11,7 +7,16 @@ import {
   selectCartItemsCount,
   selectCartItems,
 } from "./../../redux/Cart/cart.selectors";
+
+import { createStructuredSelector } from "reselect";
+
+import FormInput from "./../forms/FormInput";
+import Button from "./../forms/Button";
+
+import { saveOrderHistory } from "./../../redux/Orders/orders.actions";
+
 import PageWrapper from "../Wrapper/page-wrapper";
+import CheckoutSummary from "./checkout-summary";
 
 const initialAddressState = {
   address: "",
@@ -26,7 +31,7 @@ const mapState = createStructuredSelector({
 });
 
 const CheckoutDetails = () => {
-  const { cartItems, total, totalItems } = useSelector(mapState);
+  const { cartItems, total, itemCount } = useSelector(mapState);
   const [shippingAddress, setShippingAddress] = useState({
     ...initialAddressState,
   });
@@ -43,10 +48,10 @@ const CheckoutDetails = () => {
   };
 
   useEffect(() => {
-    if (totalItems < 1) {
+    if (itemCount < 1) {
       navigate("/");
     }
-  }, [totalItems]);
+  }, [navigate, itemCount]);
 
   const handleFormSubmit = async (evt) => {
     evt.preventDefault();
@@ -127,10 +132,14 @@ const CheckoutDetails = () => {
             />
 
             <div>
-              <button type="submit" className="btn btn-primary">
+              <Button className="btn btn-primary mr-2" type="submit">
                 Submit
-              </button>
-              <a className="btn btn-default">Cancel</a>
+              </Button>
+              <Button className="btn btn-default">
+              Cancel
+              </Button>
+
+              
             </div>
           </form>
         </div>
@@ -139,11 +148,15 @@ const CheckoutDetails = () => {
             <div className="card-body">
               <h4 className="card-title">Order summary</h4>
               <p className="card-text">
-                you have {totalItems} items in your shopping cart.
+                you have {itemCount} items in your shopping cart.
               </p>
               <ul className="list-group list-group-flush">
                 {cartItems.map((item, pos) => {
-                  return <CheckoutDetails {...item} />;
+                  return (
+                    <li key={pos} className="list-group-item">
+                      <CheckoutSummary {...item} />
+                    </li>
+                  );
                 })}
 
                 <li className="list-group-item font-weight-bold">

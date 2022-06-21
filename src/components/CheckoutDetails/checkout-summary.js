@@ -1,14 +1,12 @@
 import React from "react";
 
 const CheckoutSummary = (product) => {
-  const { productName, productThumbnail, productPrice, quantity, documentID } =
+  const { productName, productPrice, quantity} =
     product;
   return (
     <>
-      <li class="list-group-item">
-        {quantity} x {productName}
-        <div class="float-right">${productPrice}</div>
-      </li>
+      {quantity} x {productName}
+      <div className="float-right">${productPrice}</div>
     </>
   );
 };

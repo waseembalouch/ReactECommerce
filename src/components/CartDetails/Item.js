@@ -1,14 +1,13 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import {
-  removeCartItem,
   addProduct,
   reduceCartItem,
 } from "../../redux/Cart/cart.actions";
 
 const Item = (product) => {
   const dispatch = useDispatch();
-  const { productName, productThumbnail, productPrice, quantity, documentID } =
+  const { productName, productThumbnail, productPrice, quantity } =
     product;
 
 
@@ -31,21 +30,21 @@ const Item = (product) => {
           ></div>
         </td>
         <td> {productName}</td>
-        <td class="cart-actions">
-          <div class="row no-gutters">
-            <div class="col-3">
+        <td className="cart-actions">
+          <div className="row no-gutters">
+            <div className="col-3">
               <button
-                class="btn btn-secondary"
+                className="btn btn-secondary"
                 type="button"
                 onClick={() => handleAddProduct(product)}
               >
                 +
               </button>
             </div>
-            <div class="col-6 text-center items-count"> {quantity} in cart</div>
-            <div class="col-3">
+            <div className="col-6 text-center items-count"> {quantity} in cart</div>
+            <div className="col-3">
               <button
-                class="btn btn-secondary"
+                className="btn btn-secondary"
                 type="button"
                 onClick={() => handleReduceItem(product)}
               >
@@ -54,7 +53,7 @@ const Item = (product) => {
             </div>
           </div>
         </td>
-        <td class="text-right">${productPrice}</td>
+        <td className="text-right">${productPrice}</td>
 
     </>
   );

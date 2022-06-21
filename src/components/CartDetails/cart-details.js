@@ -1,16 +1,17 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import {
-  selectCartItems,
-  selectCartTotal,
-  selectCartItemsCount,
-} from "../../redux/Cart/cart.selectors";
+import { useSelector, useDispatch } from "react-redux";
+
+import { selectCartItems, selectCartTotal, selectCartItemsCount } from "./../../redux/Cart/cart.selectors.js"; 
+
+
 import { createStructuredSelector } from "reselect";
-import Button from "../forms/Button";
+import Button from "./../forms/Button";
+
 import PageWrapper from "../Wrapper/page-wrapper";
+
 import Item from "./Item";
+import { clearCart } from "./../../redux/Cart/cart.actions";
 
 
 
@@ -20,20 +21,27 @@ const mapState = createStructuredSelector({
   totalItems: selectCartItemsCount,
 });
 
-
-
 const CartDetails = () => {
-  const navigate = useNavigate();
   const { cartItems, total, totalItems } = useSelector(mapState);
   const errMsg = "You have no items in your cart.";
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   useEffect(() => {
     if (totalItems < 1) {
-      navigate('/');
+      navigate("/");
     }
-  
-  }, [totalItems]);
-  
+  }, [navigate, totalItems]);
+
+  const handleClearCart = () => {
+    dispatch(clearCart());
+    navigate("/");
+  };
+
+  const handleCheckoutCart = () => {
+    navigate("/checkout", { replace: true });
+  };
 
   return (
     <PageWrapper>
@@ -79,13 +87,15 @@ const CartDetails = () => {
         <p>{errMsg}</p>
       )}
       <p>
-        <Link to="/checkout">
-          <button className="btn btn-info mr-2">Checkout Cart</button>
-        </Link>
-
-        <Link to="/">
-          <button className="btn btn-danger">Continue Shopping</button>
-        </Link>
+        <Button
+          className="btn btn-info mr-2"
+          onClick={() => handleCheckoutCart()}
+        >
+          Checkout Cart
+        </Button> 
+        <Button className="btn btn-danger" onClick={() => handleClearCart()}>
+          Clear shopping cart
+        </Button>
       </p>
     </PageWrapper>
   );
