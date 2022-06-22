@@ -51,11 +51,11 @@ const App = (props) => {
             path="/dashboard"
             element={
               <>
-                <WithAuth>
+                {/* <WithAuth> */}
                   <MainLayout>
                     <Dashboard />
                   </MainLayout>
-                </WithAuth>
+                {/* </WithAuth> */}
               </>
             }
           />
