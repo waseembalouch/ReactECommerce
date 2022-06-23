@@ -22,7 +22,7 @@ const OrderHistory = ({ orders }) => {
               placeholder="Search"
             />
           </div>
-          <table className="table" id="productGrid">
+          <table className="table" id="orderGrid">
             <thead>
               <tr>
                 <th style={{ width: "20%" }}>Order Date</th>

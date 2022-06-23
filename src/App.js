@@ -24,6 +24,7 @@ import AddProductPage from "./pages/Admin/AddProductPage";
 import ManageProductPage from "./pages/Admin/ManageProductPage";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
+import Order from "./pages/Order";
 
 const App = (props) => {
   const dispatch = useDispatch();
@@ -51,11 +52,23 @@ const App = (props) => {
             path="/dashboard"
             element={
               <>
-                {/* <WithAuth> */}
+                <WithAuth>
                   <MainLayout>
                     <Dashboard />
                   </MainLayout>
-                {/* </WithAuth> */}
+                </WithAuth>
+              </>
+            }
+          />
+          <Route
+            path="/orderDetail/:orderID"
+            element={
+              <>
+                <WithAuth>
+                  <MainLayout>
+                    <Order />
+                  </MainLayout>
+                </WithAuth>
               </>
             }
           />
@@ -64,9 +77,11 @@ const App = (props) => {
             path="/addproduct"
             element={
               <>
-                <MainLayout>
-                  <AddProductPage />
-                </MainLayout>
+                <WithAdminAuth>
+                  <MainLayout>
+                    <AddProductPage />
+                  </MainLayout>
+                </WithAdminAuth>
               </>
             }
           />
@@ -74,9 +89,11 @@ const App = (props) => {
             path="/manageproduct"
             element={
               <>
-                <MainLayout>
-                  <ManageProductPage />
-                </MainLayout>
+                <WithAdminAuth>
+                  <MainLayout>
+                    <ManageProductPage />
+                  </MainLayout>
+                </WithAdminAuth>
               </>
             }
           />
@@ -94,9 +111,11 @@ const App = (props) => {
             path="/checkout"
             element={
               <>
-                <MainLayout>
-                  <Checkout />
-                </MainLayout>
+                <WithAuth>
+                  <MainLayout>
+                    <Checkout />
+                  </MainLayout>
+                </WithAuth>
               </>
             }
           />

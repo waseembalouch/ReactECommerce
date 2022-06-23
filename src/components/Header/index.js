@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { signOutUserStart } from "../../redux/User/user.actions";
 import { selectCartItemsCount } from "./../../redux/Cart/cart.selectors";
 import { clearCart } from "./../../redux/Cart/cart.actions";
+import { checkUserIsAdmin } from "../../Utils";
 
 const mapState = (state) => ({
   currentUser: state.user.currentUser,
@@ -13,6 +14,9 @@ const mapState = (state) => ({
 const Header = (props) => {
   const dispatch = useDispatch();
   const { currentUser, totalNumCartItems } = useSelector(mapState);
+  const isAdmin = checkUserIsAdmin(currentUser);
+
+
   const signOut = () => {
     dispatch(clearCart());
     dispatch(signOutUserStart());
@@ -78,12 +82,18 @@ const Header = (props) => {
                     Dashboard
                   </Link>
                   <a className="dropdown-item">My Orders</a>
+                  {isAdmin && (
+                    <>
+                      <Link className="dropdown-item" to="/manageproduct">
+                        Manage Products
+                      </Link>
 
-                  <Link className="dropdown-item" to="/manageproduct">
-                    Manage Products
-                  </Link>
+                      <Link className="dropdown-item" to="/manageorders">
+                        Manage Orders
+                      </Link>
+                    </>
+                  )}
 
-                  <a className="dropdown-item">Manage Orders</a>
                   <a className="dropdown-item" onClick={() => signOut()}>
                     Logout
                   </a>

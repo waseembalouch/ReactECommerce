@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
 import {
@@ -24,13 +24,17 @@ const initialAddressState = {
   phone: "",
 };
 
+
 const mapState = createStructuredSelector({
   total: selectCartTotal,
   itemCount: selectCartItemsCount,
   cartItems: selectCartItems,
 });
 
+
+
 const CheckoutDetails = () => {
+
   const { cartItems, total, itemCount } = useSelector(mapState);
   const [shippingAddress, setShippingAddress] = useState({
     ...initialAddressState,
@@ -39,12 +43,19 @@ const CheckoutDetails = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+
+
+
   const handleShipping = (evt) => {
     const { name, value } = evt.target;
     setShippingAddress({
       ...shippingAddress,
       [name]: value,
     });
+  };
+
+  const handleCancel = () => {
+    navigate("/");
   };
 
   useEffect(() => {
@@ -126,7 +137,7 @@ const CheckoutDetails = () => {
               required
               name="phone"
               label={"Phone"}
-              handleChange={(evt) => handleShipping(evt)}
+              handleChange={() => handleShipping()}
               value={shippingAddress.phone}
               type="text"
             />
@@ -135,11 +146,13 @@ const CheckoutDetails = () => {
               <Button className="btn btn-primary mr-2" type="submit">
                 Submit
               </Button>
-              <Button className="btn btn-default">
-              Cancel
+              <Button
+                className="btn btn-default"
+                type="button"
+                onClick={(evt) => handleCancel(evt)}
+              >
+                Cancel
               </Button>
-
-              
             </div>
           </form>
         </div>

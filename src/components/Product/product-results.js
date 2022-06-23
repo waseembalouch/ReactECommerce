@@ -1,32 +1,35 @@
-import React, {  useEffect } from "react";
+import React, { useEffect } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProductsStart } from "./../../redux/Products/products.actions";
 import PageWrapper from "../Wrapper/page-wrapper";
-
+import { selectCartItems } from "../../redux/Cart/cart.selectors";
 import ProductCard from "./product-card";
+import { createStructuredSelector } from "reselect";
+
+const mapCartState = createStructuredSelector({
+  cartItems: selectCartItems,
+});
 
 const mapState = ({ productsData }) => ({
   products: productsData.products,
 });
 
-
 const handleFilter = (e) => {
   const nextFilter = e.target.value;
-
 };
 
-
 export const ProductResults = () => {
+  const { cartItems } = useSelector(mapCartState);
   const { products } = useSelector(mapState);
   const dispatch = useDispatch();
   const { data } = products;
 
+  console.log(cartItems);
+
   useEffect(() => {
     dispatch(fetchProductsStart());
   }, []);
-
-
 
   return (
     <PageWrapper>
@@ -44,24 +47,33 @@ export const ProductResults = () => {
         </div>
         <div className="col-md-9">
           <div className="row">
+            {Array.isArray(data) &&
+              data.length > 0 &&
+              data.map((product, pos) => {
+                const {
+                  documentID,
+                  productThumbnail,
+                  productName,
+                  productPrice,
+                } = product;
+                const cartItem = cartItems.find(
+                  (x) => x.documentID === documentID
+                );
 
-          {Array.isArray(data) &&
-                data.length > 0 &&  data.map((product, pos) => {
+                if (
+                  !productThumbnail ||
+                  !productName ||
+                  typeof productPrice === "undefined"
+                )
+                  return null;
 
-              const { productThumbnail, productName, productPrice } = product;
-              if (
-                !productThumbnail ||
-                !productName ||
-                typeof productPrice === "undefined"
-              )
-                return null;
+                const configProduct = {
+                  ...product,
+                  ...cartItem,
+                };
 
-              const configProduct = {
-                ...product,
-              };
-
-              return <ProductCard key={pos} {...configProduct} />;
-            })}
+                return <ProductCard key={pos} {...configProduct} />;
+              })}
           </div>
         </div>
       </div>

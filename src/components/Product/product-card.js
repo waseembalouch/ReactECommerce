@@ -1,11 +1,13 @@
 import React from "react";
 import Button from "../forms/Button";
 import { useDispatch } from "react-redux";
-import { addProduct } from "./../../redux/Cart/cart.actions";
+import { addProduct, reduceCartItem } from "./../../redux/Cart/cart.actions";
 
 const ProductCard = (product) => {
   const dispatch = useDispatch();
-  const { documentID, productThumbnail, productName, productPrice } = product;
+  const { documentID, productThumbnail, productName, productPrice, quantity } =
+    product;
+
   if (
     !documentID ||
     !productThumbnail ||
@@ -14,14 +16,14 @@ const ProductCard = (product) => {
   )
     return null;
 
-  const configAddToCartBtn = {
-    type: "button",
-    className: "btn btn-secondary",
-  };
-
   const handleAddToCart = (product) => {
     if (!product) return;
     dispatch(addProduct(product));
+  };
+
+  const handleReduceItem = (product) => {
+    console.log(product);
+    dispatch(reduceCartItem(product));
   };
 
   return (
@@ -42,21 +44,25 @@ const ProductCard = (product) => {
           <div className="row no-gutters">
             <div className="col-3">
               <Button
-                {...configAddToCartBtn}
+                type="button"
+                className="btn btn-secondary"
                 onClick={() => handleAddToCart(product)}
               >
                 +
               </Button>
-
-              {/* <button className="btn btn-secondary" type="button">
-                +
-              </button> */}
             </div>
-            <div className="col-6 text-center items-count">1 in cart</div>
+            <div className="col-6 text-center items-count">
+              {quantity ?? 0} in cart
+            </div>
             <div className="col-3">
-              <button className="btn btn-secondary" type="button">
+              <Button
+                type="button"
+                className="btn btn-secondary"
+                disabled={quantity > 0 ? "" : "true"}
+                onClick={() => handleReduceItem(product)}
+              >
                 -
-              </button>
+              </Button>
             </div>
           </div>
         </div>
