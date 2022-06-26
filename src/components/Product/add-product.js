@@ -80,11 +80,11 @@ const AddProduct = (props) => {
                   },
                   {
                     value: "seafood",
-                    name: "seafood",
+                    name: "Seafood",
                   },
                   {
                     value: "dairy",
-                    name: "dairy",
+                    name: "Dairy",
                   },
                 ]}
                 handleChange={(e) => setProductCategory(e.target.value)}
@@ -97,7 +97,7 @@ const AddProduct = (props) => {
               />
 
               <div>
-                <Button type="submit">Submit</Button>
+                <Button className="btn btn-primary" type="submit">Submit</Button>
                 <a className="btn btn-default">Cancel</a>
               </div>
             </form>

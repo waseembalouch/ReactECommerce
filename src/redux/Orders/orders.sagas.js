@@ -14,8 +14,9 @@ import { toast } from "react-toastify";
 
 export function* getUserOrderHistory({ payload }) {
   try {
+    const {uid, isAdmin} = payload;
     yield put(handleLoader(true));
-    const history = yield handleGetUserOrderHistory(payload);
+    const history = yield handleGetUserOrderHistory(uid, isAdmin);
     yield put(setUserOrderHistory(history));
   } catch (err) {
     toast.error(appConstants.GENERIC_ERROR_MESSAGE);
@@ -41,6 +42,7 @@ export function* saveOrder({ payload }) {
       orderCreatedDate: timestamps,
     });
     yield put(clearCart());
+    toast.error(appConstants.RECORD_SAVED_SUCCESSFULLY);
   } catch (err) {
     toast.error(appConstants.GENERIC_ERROR_MESSAGE);
   } finally {

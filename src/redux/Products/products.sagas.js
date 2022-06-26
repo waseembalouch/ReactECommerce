@@ -25,6 +25,7 @@ export function* addProduct({ payload }) {
       productAdminUserUID: auth.currentUser.uid,
       createdDate: timestamp,
     });
+    toast.success(appConstants.RECORD_SAVED_SUCCESSFULLY);
     yield put(fetchProductsStart());
   } catch (err) {
     toast.error(appConstants.GENERIC_ERROR_MESSAGE);

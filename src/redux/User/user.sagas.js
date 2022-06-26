@@ -87,9 +87,11 @@ export function* signUpUser({
   }
 
   try {
+    yield put(handleLoader(true));
     const { user } = yield auth.createUserWithEmailAndPassword(email, password);
     const additionalData = { displayName };
     yield getSnapshotFromUserAuth(user, additionalData);
+    toast.success(appConstants.REGISTRATION_PROCESS_SUCCESS);
   } catch (err) {
     toast.error(appConstants.GENERIC_ERROR_MESSAGE);
   } finally {
