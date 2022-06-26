@@ -26,6 +26,10 @@ import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import Loader from "./components/Loader";
 
+// toaster container
+import { ToastContainer } from 'react-toastify';
+//toaster css
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = (props) => {
   const dispatch = useDispatch();
@@ -143,6 +147,7 @@ const App = (props) => {
           />
         </Routes>
       </div>
+      <ToastContainer autoClose={1500} />
     </>
   );
 };

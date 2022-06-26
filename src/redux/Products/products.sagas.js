@@ -1,28 +1,36 @@
-import { auth } from './../../firebase/utils';
-import { takeLatest, put, all, call } from 'redux-saga/effects';
-import { setProducts, setProduct, fetchProductsStart } from './products.actions';
-import { handleAddProduct, handleFetchProducts,
-  handleFetchProduct, handleDeleteProduct } from './products.helpers';
-import productsTypes from './products.types';
+import { auth } from "./../../firebase/utils";
+import { takeLatest, put, all, call } from "redux-saga/effects";
+import {
+  setProducts,
+  setProduct,
+  fetchProductsStart,
+} from "./products.actions";
+import {
+  handleAddProduct,
+  handleFetchProducts,
+  handleFetchProduct,
+  handleDeleteProduct,
+} from "./products.helpers";
+import productsTypes from "./products.types";
+import {  handleLoader } from "../Application/app.actions";
+import appConstants from "../../Utils/appConstants";
+import { toast } from "react-toastify";
 
 export function* addProduct({ payload }) {
-console.log(payload)
   try {
+    yield put(handleLoader(true));
     const timestamp = new Date();
     yield handleAddProduct({
       ...payload,
       productAdminUserUID: auth.currentUser.uid,
-      createdDate: timestamp
+      createdDate: timestamp,
     });
-    yield put(
-      fetchProductsStart()
-    );
-
-
+    yield put(fetchProductsStart());
   } catch (err) {
-    // console.log(err);
+    toast.error(appConstants.GENERIC_ERROR_MESSAGE);
+  } finally {
+    yield put(handleLoader(false));
   }
-
 }
 
 export function* onAddProductStart() {
@@ -31,13 +39,13 @@ export function* onAddProductStart() {
 
 export function* fetchProducts({ payload }) {
   try {
+    yield put(handleLoader(true));
     const products = yield handleFetchProducts(payload);
-    yield put(
-      setProducts(products)
-    );
-
+    yield put(setProducts(products));
   } catch (err) {
-    // console.log(err);
+    toast.error(appConstants.GENERIC_ERROR_MESSAGE);
+  } finally {
+    yield put(handleLoader(false));
   }
 }
 
@@ -47,13 +55,13 @@ export function* onFetchProductsStart() {
 
 export function* deleteProduct({ payload }) {
   try {
+    yield put(handleLoader(true));
     yield handleDeleteProduct(payload);
-    yield put (
-      fetchProductsStart()
-    );
-
+    yield put(fetchProductsStart());
   } catch (err) {
-    // console.log(err);
+    toast.error(appConstants.GENERIC_ERROR_MESSAGE);
+  } finally {
+    yield put(handleLoader(false));
   }
 }
 
@@ -63,13 +71,13 @@ export function* onDeleteProductStart() {
 
 export function* fetchProduct({ payload }) {
   try {
+    yield put(handleLoader(true));
     const product = yield handleFetchProduct(payload);
-    yield put(
-      setProduct(product)
-    );
-
+    yield put(setProduct(product));
   } catch (err) {
-    // console.log(err);
+    toast.error(appConstants.GENERIC_ERROR_MESSAGE);
+  } finally {
+    yield put(handleLoader(false));
   }
 }
 
@@ -83,5 +91,5 @@ export default function* productsSagas() {
     call(onFetchProductsStart),
     call(onDeleteProductStart),
     call(onFetchProductStart),
-  ])
+  ]);
 }

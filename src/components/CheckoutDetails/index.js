@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { toast } from 'react-toastify';
 
 import {
   selectCartTotal,
@@ -73,7 +74,7 @@ const CheckoutDetails = () => {
       !shippingAddress.phone ||
       !recipientName
     ) {
-      alert("All fields are required");
+      toast.error("All fields are required")
       return;
     }
     const configOrder = {

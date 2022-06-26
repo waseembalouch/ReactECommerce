@@ -15,8 +15,5 @@ export function* onShowLoaderStart() {
 }
 
 export default function* appSagas() {
-  yield all([
-    call(onShowLoaderStart)
-    
-  ]);
+  yield all([call(onShowLoaderStart)]);
 }
