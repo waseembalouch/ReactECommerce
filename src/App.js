@@ -15,26 +15,28 @@ import MainLayout from "./layouts/MainLayout";
 import Homepage from "./pages/Homepage";
 import Login from "./pages/Login";
 import Signup from "./pages/Registration";
-import Dashboard from "./pages/Dashboard";
-// import Admin from "./pages/Admin/Index";
+import OrderHistoryPage from "./pages/Order/OrderHistoryPage";
+import OrderDetailPage from "./pages/Order/OrderDetailPage";
 
 import "./App.css";
 
-import AddProductPage from "./pages/Admin/AddProductPage";
-import ManageProductPage from "./pages/Admin/ManageProductPage";
+import AddProductPage from "./pages/Product/AddProductPage";
+import ManageProductPage from "./pages/Product/ManageProductPage";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
-import Order from "./pages/Order";
+import Loader from "./components/Loader";
+
 
 const App = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(checkUserSession());
-  }, []);
+  }, [dispatch]);
 
   return (
     <>
+      <Loader />
       <div className="main">
         <Routes>
           <Route
@@ -49,12 +51,12 @@ const App = (props) => {
           />
 
           <Route
-            path="/dashboard"
+            path="/orders"
             element={
               <>
                 <WithAuth>
                   <MainLayout>
-                    <Dashboard />
+                    <OrderHistoryPage />
                   </MainLayout>
                 </WithAuth>
               </>
@@ -66,7 +68,7 @@ const App = (props) => {
               <>
                 <WithAuth>
                   <MainLayout>
-                    <Order />
+                    <OrderDetailPage />
                   </MainLayout>
                 </WithAuth>
               </>

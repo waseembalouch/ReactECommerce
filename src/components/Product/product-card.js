@@ -58,7 +58,7 @@ const ProductCard = (product) => {
               <Button
                 type="button"
                 className="btn btn-secondary"
-                disabled={quantity > 0 ? "" : "true"}
+                disabled={quantity > 0 ? false : true}
                 onClick={() => handleReduceItem(product)}
               >
                 -

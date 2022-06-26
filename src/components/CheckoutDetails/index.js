@@ -137,7 +137,7 @@ const CheckoutDetails = () => {
               required
               name="phone"
               label={"Phone"}
-              handleChange={() => handleShipping()}
+              handleChange={(evt) => handleShipping(evt)}
               value={shippingAddress.phone}
               type="text"
             />

@@ -8,7 +8,7 @@ const mapState = ({ user, ordersData }) => ({
   orderHistory: ordersData.orderHistory.data,
 });
 
-const Dashboard = () => {
+const OrderHistoryPage = () => {
   const dispatch = useDispatch();
   const { currentUser, orderHistory } = useSelector(mapState);
 
@@ -24,4 +24,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default OrderHistoryPage;

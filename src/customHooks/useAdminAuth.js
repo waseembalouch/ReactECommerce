@@ -1,25 +1,23 @@
-import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { checkUserIsAdmin } from './../Utils';
+import { checkUserIsAdmin } from "./../Utils";
 
 const mapState = ({ user }) => ({
-  currentUser: user.currentUser
+  currentUser: user.currentUser,
 });
 
-const useAdminAuth = props => {
+const useAdminAuth = (props) => {
   const { currentUser } = useSelector(mapState);
   const navigate = useNavigate();
 
   useEffect(() => {
-    debugger
     if (!checkUserIsAdmin(currentUser)) {
       navigate("/login");
     }
-
   }, [currentUser]);
 
   return currentUser;
-}
+};
 
 export default useAdminAuth;

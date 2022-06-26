@@ -12,10 +12,11 @@ const mapState = (state) => ({
 });
 
 const Header = (props) => {
+
   const dispatch = useDispatch();
   const { currentUser, totalNumCartItems } = useSelector(mapState);
   const isAdmin = checkUserIsAdmin(currentUser);
-
+  const orderMenuText = isAdmin ?  "Manage Orders" : "My Orders";
 
   const signOut = () => {
     dispatch(clearCart());
@@ -78,21 +79,15 @@ const Header = (props) => {
                   {currentUser.displayName}
                 </a>
                 <div className="dropdown-menu" aria-labelledby="dropdown01">
-                  <Link className="dropdown-item" to="/dashboard">
-                    Dashboard
-                  </Link>
-                  <a className="dropdown-item">My Orders</a>
                   {isAdmin && (
-                    <>
-                      <Link className="dropdown-item" to="/manageproduct">
-                        Manage Products
-                      </Link>
-
-                      <Link className="dropdown-item" to="/manageorders">
-                        Manage Orders
-                      </Link>
-                    </>
+                    <Link className="dropdown-item" to="/manageproduct">
+                      Manage Products
+                    </Link>
                   )}
+
+                  <Link className="dropdown-item" to="/orders">
+                    {orderMenuText}
+                  </Link>
 
                   <a className="dropdown-item" onClick={() => signOut()}>
                     Logout

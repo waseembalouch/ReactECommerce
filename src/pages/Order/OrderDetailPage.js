@@ -1,15 +1,15 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { getOrderDetailsStart } from "./../../redux/Orders/orders.actions";
+import { getOrderDetailsStart } from "../../redux/Orders/orders.actions";
 import { useDispatch, useSelector } from "react-redux";
-import OrderDetails from "./../../components/OrderDetails";
+import OrderDetails from "../../components/OrderDetails";
 import PageWrapper from "../../components/Wrapper/page-wrapper";
 
 const mapState = ({ ordersData }) => ({
   orderDetails: ordersData.orderDetails,
 });
 
-const Order = () => {
+const OrderDetailPage = () => {
   const { orderID } = useParams();
   const dispatch = useDispatch();
   const { orderDetails } = useSelector(mapState);
@@ -32,4 +32,4 @@ const Order = () => {
   );
 };
 
-export default Order;
+export default OrderDetailPage;

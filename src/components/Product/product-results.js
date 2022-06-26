@@ -24,9 +24,6 @@ export const ProductResults = () => {
   const { products } = useSelector(mapState);
   const dispatch = useDispatch();
   const { data } = products;
-
-  console.log(cartItems);
-
   useEffect(() => {
     dispatch(fetchProductsStart());
   }, []);
