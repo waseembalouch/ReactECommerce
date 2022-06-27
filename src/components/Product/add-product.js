@@ -20,7 +20,7 @@ const AddProduct = (props) => {
   const resetForm = () => {
     setProductCategory("fruits");
     setProductName("");
-    setProductThumbnail("");
+    setProductThumbnail("https://dummyimage.com/600x220/000/fff");
     setProductPrice(0);
     setProductDesc("");
   };
@@ -39,6 +39,7 @@ const AddProduct = (props) => {
     );
     resetForm();
   };
+
 
   return (
     <>
@@ -97,7 +98,9 @@ const AddProduct = (props) => {
               />
 
               <div>
-                <Button className="btn btn-primary" type="submit">Submit</Button>
+                <Button className="btn btn-primary" type="submit">
+                  Submit
+                </Button>
                 <a className="btn btn-default">Cancel</a>
               </div>
             </form>
@@ -110,12 +113,17 @@ const AddProduct = (props) => {
                 style={{ width: "538px", height: "220px" }}
               />
               <div className="card-body">
-                <h2 className="card-title">Product: {productName.replace(/(\w)(\w*)/g, function (g0, g1, g2) {
+                <h2 className="card-title">
+                  Product:
+                  {productName.replace(/(\w)(\w*)/g, function (g0, g1, g2) {
                     return g1.toUpperCase() + g2.toLowerCase();
-                  })}</h2>
+                  })}
+                </h2>
                 <h5 className="card-text">
-                  Category: {productCategory.replace(/(\w)(\w*)/g, function (g0, g1, g2) {
-                    return g1.toUpperCase() + g2.toLowerCase();})}
+                  Category:
+                  {productCategory.replace(/(\w)(\w*)/g, function (g0, g1, g2) {
+                    return g1.toUpperCase() + g2.toLowerCase();
+                  })}
                 </h5>
                 <h5 className="card-text">Price: {productPrice}</h5>
               </div>

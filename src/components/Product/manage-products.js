@@ -47,7 +47,7 @@ const ManageProduct = (props) => {
       <PageWrapper>
         <div>
           <div className="input-group mb-3">
-            <input type="text" id="searchInput" className="form-control" placeholder="Search" onKeyUp={searchGrid} />
+            <input type="text" id="searchInput" className="form-control" placeholder="Search Product" onKeyUp={searchGrid} />
             <div className="input-group-append">
               <Link className="btn btn-success" to="/addproduct">
                 Create new Product

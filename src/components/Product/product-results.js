@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProductsStart } from "./../../redux/Products/products.actions";
@@ -22,11 +22,30 @@ const handleFilter = (e) => {
 export const ProductResults = () => {
   const { cartItems } = useSelector(mapCartState);
   const { products } = useSelector(mapState);
+  const [productCategory, setProductCategory] = useState("");
   const dispatch = useDispatch();
   const { data } = products;
   useEffect(() => {
     dispatch(fetchProductsStart());
   }, []);
+
+  const handleCategoryFilter = (e) => {
+    [].forEach.call(
+      document.getElementsByClassName("list-group-item"),
+      function (el) {
+        el.classList.remove("active");
+      }
+    );
+
+    let catFilter = e.target.innerHTML.toLowerCase();
+    e.target.classList.add("active");
+    if (catFilter === "all categories") {
+      catFilter = null;
+    }
+    dispatch(fetchProductsStart({ filterType: catFilter }));
+  };
+
+  const categories = ["fruits", "beverage", "meat", "seafood", "dairy"];
 
   return (
     <PageWrapper>
@@ -34,11 +53,27 @@ export const ProductResults = () => {
         <div className="col-md-3">
           <div className="sticky-top">
             <ul className="list-group">
-              <li className="list-group-item cursor-pointer active">
+              <li
+                className="list-group-item cursor-pointer active"
+                onClick={(ev) => handleCategoryFilter(ev)}
+              >
                 All Categories
               </li>
-              <li className="list-group-item cursor-pointer">Fruits</li>
-              <li className="list-group-item cursor-pointer">Bread</li>
+
+              {categories.map((item, pos) => {
+                return (
+                  <li
+                    key={pos}
+                    value={item}
+                    onClick={(ev) => handleCategoryFilter(ev)}
+                    className="list-group-item cursor-pointer"
+                  >
+                    {item.replace(/(\w)(\w*)/g, function (g0, g1, g2) {
+                      return g1.toUpperCase() + g2.toLowerCase();
+                    })}
+                  </li>
+                );
+              })}
             </ul>
           </div>
         </div>

@@ -9,6 +9,30 @@ import Button from "./../../components/forms/Button";
 const OrderHistory = ({ orders }) => {
   const navigate = useNavigate();
 
+  const searchGrid = () => {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("searchInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("orderGrid");
+    tr = table.getElementsByTagName("tr");
+
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[1];
+      if (td) {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    }
+  };
+
+
+
+
   return (
     <>
       <PageWrapper>
@@ -19,7 +43,8 @@ const OrderHistory = ({ orders }) => {
               type="text"
               id="searchInput"
               className="form-control"
-              placeholder="Search"
+              placeholder="Search Order Id"
+              onKeyUp={searchGrid}
             />
           </div>
           <table className="table" id="orderGrid">
@@ -28,6 +53,7 @@ const OrderHistory = ({ orders }) => {
                 <th style={{ width: "20%" }}>Order Date</th>
                 <th style={{ width: "20%" }}>Order ID</th>
                 <th style={{ width: "20%" }}>Amount</th>
+                <th style={{ width: "20%" }}>Customer</th>
                 <th className="text-center" width={200}>
                   Actions
                 </th>
@@ -37,13 +63,15 @@ const OrderHistory = ({ orders }) => {
               {Array.isArray(orders) &&
                 orders.length > 0 &&
                 orders.map((order, index) => {
-                  const { documentID, orderCreatedDate, orderTotal } = order;
+                  console.log(order)
+                  const { documentID, orderCreatedDate, orderTotal, recipientName } = order;
 
                   return (
                     <tr key={index}>
                       <td>{moment(orderCreatedDate.nano).format("DD/MM/YYYY")}</td>
                       <td>{documentID}</td>
                       <td>${orderTotal}</td>
+                      <td>{recipientName}</td>
 
                       <td align="center">
                         <Button
