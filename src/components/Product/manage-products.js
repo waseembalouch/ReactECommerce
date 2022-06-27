@@ -6,6 +6,7 @@ import {
   deleteProductStart,
 } from "./../../redux/Products/products.actions";
 import PageWrapper from "../Wrapper/page-wrapper";
+import { useNavigate } from "react-router-dom";
 
 import Button from "./../../components/forms/Button";
 
@@ -14,6 +15,7 @@ const mapState = ({ productsData }) => ({
 });
 
 const ManageProduct = (props) => {
+  const navigate = useNavigate();
   const { products } = useSelector(mapState);
   const dispatch = useDispatch();
   const { data } = products;
@@ -99,7 +101,7 @@ const ManageProduct = (props) => {
                         />
                       </td>
                       <td>
-                        <Button className="btn btn-danger mr-2">Edit</Button>
+                        <Button className="btn btn-danger mr-2" onClick={() => navigate(`/editproduct/${documentID}`)}>Edit</Button>
                         <Button
                           className="btn btn-danger"
                           onClick={() =>

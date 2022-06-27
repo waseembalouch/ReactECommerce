@@ -1,53 +1,43 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { addProductStart } from "./../../redux/Products/products.actions";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProductStart } from "./../../redux/Products/products.actions";
 import FormInput from "../forms/FormInput";
 import FormSelect from "../forms/FormSelect";
 import Button from "../forms/Button";
 import { useNavigate } from "react-router-dom";
-
 import PageWrapper from "../Wrapper/page-wrapper";
 
-const AddProduct = (props) => {
+const mapState = ({ productsData }) => ({
+  product: productsData.product,
+});
+
+const EditProduct = (props) => {
   const navigate = useNavigate();
+  const { documentID } = useParams();
+  /// Edit Case
+  const { product } = useSelector(mapState);
+  useEffect(() => {
+    dispatch(fetchProductStart(documentID));
+  }, []);
+
   const dispatch = useDispatch();
-  const [productCategory, setProductCategory] = useState("fruits");
-  const [productName, setProductName] = useState("");
-  const [productThumbnail, setProductThumbnail] = useState(
-    "https://dummyimage.com/600x220/000/fff"
+  const [productCategory, setProductCategory] = useState(
+    product.productCategory
   );
-  const [productPrice, setProductPrice] = useState(0);
-  const [productDesc, setProductDesc] = useState("");
-
-  const resetForm = () => {
-    setProductCategory("fruits");
-    setProductName("");
-    setProductThumbnail("https://dummyimage.com/600x220/000/fff");
-    setProductPrice(0);
-    setProductDesc("");
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    dispatch(
-      addProductStart({
-        productCategory,
-        productName,
-        productThumbnail,
-        productPrice,
-        productDesc,
-      })
-    );
-    resetForm();
-  };
+  const [productName, setProductName] = useState(product.productName);
+  const [productThumbnail, setProductThumbnail] = useState(
+    product.productThumbnail
+  );
+  const [productPrice, setProductPrice] = useState(product.productPrice);
+  const [productDesc, setProductDesc] = useState(product.productDesc);
 
   return (
     <>
       <PageWrapper>
         <div className="row">
           <div className="col-md-6">
-            <form onSubmit={handleSubmit}>
+            <form>
               <FormInput
                 label="Name"
                 type="text"
@@ -142,4 +132,4 @@ const AddProduct = (props) => {
   );
 };
 
-export default AddProduct;
+export default EditProduct;

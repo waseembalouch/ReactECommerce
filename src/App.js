@@ -21,15 +21,16 @@ import OrderDetailPage from "./pages/Order/OrderDetailPage";
 import "./App.css";
 
 import AddProductPage from "./pages/Product/AddProductPage";
+import EditProductPage from "./pages/Product/EditProductPage";
 import ManageProductPage from "./pages/Product/ManageProductPage";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import Loader from "./components/Loader";
 
 // toaster container
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer } from "react-toastify";
 //toaster css
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 
 const App = (props) => {
   const dispatch = useDispatch();
@@ -78,7 +79,6 @@ const App = (props) => {
               </>
             }
           />
-
           <Route
             path="/addproduct"
             element={
@@ -86,6 +86,19 @@ const App = (props) => {
                 <WithAdminAuth>
                   <MainLayout>
                     <AddProductPage />
+                  </MainLayout>
+                </WithAdminAuth>
+              </>
+            }
+          />
+
+          <Route
+            path="/editproduct/:documentID"
+            element={
+              <>
+                <WithAdminAuth>
+                  <MainLayout>
+                    <EditProductPage />
                   </MainLayout>
                 </WithAdminAuth>
               </>
