@@ -10,6 +10,7 @@ import {
   handleFetchProducts,
   handleFetchProduct,
   handleDeleteProduct,
+  handleEditProduct,
 } from "./products.helpers";
 import productsTypes from "./products.types";
 import {  handleLoader } from "../Application/app.actions";
@@ -34,9 +35,33 @@ export function* addProduct({ payload }) {
   }
 }
 
+
 export function* onAddProductStart() {
   yield takeLatest(productsTypes.ADD_NEW_PRODUCT_START, addProduct);
 }
+
+export function* editProduct({ payload }) {
+  try {
+    console.log(payload)
+    yield put(handleLoader(true));
+    yield handleEditProduct({
+      ...payload
+    });
+    toast.success(appConstants.RECORD_UPDATE_SUCCESSFULLY);
+    yield put(fetchProductsStart());
+  } catch (err) {
+    toast.error(appConstants.GENERIC_ERROR_MESSAGE);
+  } finally {
+    yield put(handleLoader(false));
+  }
+}
+
+export function* onEditProductStart() {
+  yield takeLatest(productsTypes.EDIT_PRODUCT_START, editProduct);
+}
+
+
+
 
 export function* fetchProducts({ payload }) {
   try {
@@ -92,5 +117,6 @@ export default function* productsSagas() {
     call(onFetchProductsStart),
     call(onDeleteProductStart),
     call(onFetchProductStart),
+    call(onEditProductStart)
   ]);
 }

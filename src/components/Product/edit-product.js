@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProductStart } from "./../../redux/Products/products.actions";
+import {
+  fetchProductStart,
+  editProductStart,
+} from "./../../redux/Products/products.actions";
 import FormInput from "../forms/FormInput";
 import FormSelect from "../forms/FormSelect";
 import Button from "../forms/Button";
@@ -22,6 +25,7 @@ const EditProduct = (props) => {
   }, []);
 
   const dispatch = useDispatch();
+  const [productDocumentID, setDocumentID] = useState(product.documentID);
   const [productCategory, setProductCategory] = useState(
     product.productCategory
   );
@@ -32,12 +36,28 @@ const EditProduct = (props) => {
   const [productPrice, setProductPrice] = useState(product.productPrice);
   const [productDesc, setProductDesc] = useState(product.productDesc);
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    dispatch(
+      editProductStart({
+        productDocumentID,
+        productCategory,
+        productName,
+        productThumbnail,
+        productPrice,
+        productDesc,
+      })
+    );
+    navigate("/manageproduct");
+  };
+
   return (
     <>
       <PageWrapper>
         <div className="row">
           <div className="col-md-6">
-            <form>
+            <form onSubmit={handleSubmit}>
               <FormInput
                 label="Name"
                 type="text"
@@ -112,15 +132,20 @@ const EditProduct = (props) => {
               <div className="card-body">
                 <h2 className="card-title">
                   Product:
-                  {productName.replace(/(\w)(\w*)/g, function (g0, g1, g2) {
-                    return g1.toUpperCase() + g2.toLowerCase();
-                  })}
+                  {productName &&
+                    productName.replace(/(\w)(\w*)/g, function (g0, g1, g2) {
+                      return g1.toUpperCase() + g2.toLowerCase();
+                    })}
                 </h2>
                 <h5 className="card-text">
                   Category:
-                  {productCategory.replace(/(\w)(\w*)/g, function (g0, g1, g2) {
-                    return g1.toUpperCase() + g2.toLowerCase();
-                  })}
+                  {productCategory &&
+                    productCategory.replace(
+                      /(\w)(\w*)/g,
+                      function (g0, g1, g2) {
+                        return g1.toUpperCase() + g2.toLowerCase();
+                      }
+                    )}
                 </h5>
                 <h5 className="card-text">Price: {productPrice}</h5>
               </div>

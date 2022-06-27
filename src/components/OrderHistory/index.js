@@ -63,7 +63,6 @@ const OrderHistory = ({ orders }) => {
               {Array.isArray(orders) &&
                 orders.length > 0 &&
                 orders.map((order, index) => {
-                  console.log(order)
                   const { documentID, orderCreatedDate, orderTotal, recipientName } = order;
 
                   return (

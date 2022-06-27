@@ -22,7 +22,6 @@ const ProductCard = (product) => {
   };
 
   const handleReduceItem = (product) => {
-    console.log(product);
     dispatch(reduceCartItem(product));
   };
 

@@ -3,6 +3,7 @@ const appConstants = {
   GENERIC_ERROR_MESSAGE: "Oops! Something went wrong!",
   PASSWORD_NOT_MATCH_ERROR_MESSAGE: "Password Don't match!",
   RECORD_SAVED_SUCCESSFULLY: "Record has been saved successfully!...",
+  RECORD_UPDATE_SUCCESSFULLY: "Record has been updated successfully!...",
   REGISTRATION_PROCESS_SUCCESS: "Registration process has been completed successfully!...",
   EMPTY_STRING: "",
 };
